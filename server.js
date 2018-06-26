@@ -1,11 +1,15 @@
-import { createApp } from './app'
+'use strict';
 
-const Vue = require('vue')
-const server = require('express')()
-const renderer = require('vue-server-renderer').createRenderer()
+const server = require('express')();
+var expressVue = require("express-vue");
+
+const expressVueMiddleware = expressVue.init();
+server.use(expressVueMiddleware);
+
 const http = require('http')
+const api = require('./api')
 
-server.get('/v2', (req, res) => {
+server.get('/v2*', (req, res) => {
     http.get('http://localhost:5000'+req.url, result => {
         result.setEncoding('utf8');
         let rawData = '';
@@ -18,31 +22,12 @@ server.get('/v2', (req, res) => {
     })
 })
 
-server.get('*', (req, res) => {
-
-  const app = new Vue({
-    el: '#app',
-    render: h => h(App)
-  })
-
-  renderer.renderToString(app, (err, html) => {
-    if (err) {
-      res.status(500).end('Internal Server Error')
-      return
-    }
-    res.end(`
-      <!DOCTYPE html>
-      <html lang="en">
-        <head><title>Hello</title></head>
-        <body>${html}</body>
-      </html>
-    `)
-  })
-
+server.get('/', (req, res, next) => {
+    const data = api.get('_catalog')
+    res.renderVue('App.vue', data);
 })
 
-
-const PORT = process.env.PORT || 80;
-server.listen(PORT, function () {
-  console.log('Listening on port ' + PORT);
+const PORT = process.env.PORT || 8080;
+server.listen(PORT, () => {
+    console.log('Listening on port ' + PORT);
 });
