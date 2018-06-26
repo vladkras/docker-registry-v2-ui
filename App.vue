@@ -1,5 +1,9 @@
 <template>
-  <div>hi {{ data }} <Repository></Repository></div>
+  <div>Repos: <Repository></Repository>
+    <ul>
+      <li v-for="repo in repositories">{{ repo }}</li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -7,9 +11,7 @@
 
   module.exports = {
     data: function() {
-      return {
-        title: 'some'
-      }
+      return {}
     },
     components: {
       Repository

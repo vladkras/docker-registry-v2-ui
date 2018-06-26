@@ -5,17 +5,8 @@
 </template>
 
 <script>
-
   module.exports = {
-
       name: 'Repositories',
-      data: function () {
-        return {
-          repositories: ["a","b","c"]
-        }
-      },
-      mounted() {
-
-      }
+      props: ["repositories"]
   }
 </script>

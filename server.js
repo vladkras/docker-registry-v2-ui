@@ -10,7 +10,7 @@ const http = require('http')
 const api = require('./api')
 
 server.get('/v2*', (req, res) => {
-    http.get('http://localhost:5000'+req.url, result => {
+    http.get(process.env.REGISTRY_HOST + req.url, result => {
         result.setEncoding('utf8');
         let rawData = '';
         result.on('data', (chunk) => { rawData += chunk; });
@@ -23,8 +23,11 @@ server.get('/v2*', (req, res) => {
 })
 
 server.get('/', (req, res, next) => {
-    const data = api.get('_catalog')
-    res.renderVue('App.vue', data);
+    const data = api.get('_catalog').then(data => {
+      res.renderVue('App.vue', JSON.parse(data));
+    }).catch(data => {
+      // display error
+    })
 })
 
 const PORT = process.env.PORT || 8080;
