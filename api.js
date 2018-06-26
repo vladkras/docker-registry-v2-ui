@@ -2,7 +2,7 @@ const http = require('http')
 
 exports.get = function(url) {
   return new Promise(function(resolve, reject) {
-    http.get('http://172.17.0.3:5000/v2/' + url, result => {
+    http.get(process.env.REGISTRY_HOST + '/v2/' + url, result => {
         result.setEncoding('utf8');
         let rawData = '';
         result.on('data', (chunk) => { rawData += chunk; });
@@ -11,7 +11,7 @@ exports.get = function(url) {
         })
     }).on('error', (e) => {
       // TODO: resove for error
-      reject(e.message);
+      resolve({error: e.message});
     })
   })
 }

@@ -7,7 +7,6 @@ const expressVueMiddleware = expressVue.init();
 server.use(expressVueMiddleware);
 
 const http = require('http')
-const api = require('./api')
 
 server.get('/v2*', (req, res) => {
     http.get(process.env.REGISTRY_HOST + req.url, result => {
@@ -22,15 +21,15 @@ server.get('/v2*', (req, res) => {
     })
 })
 
-server.get('/', (req, res, next) => {
-    const data = api.get('_catalog').then(data => {
-      res.renderVue('App.vue', JSON.parse(data));
-    }).catch(data => {
-      // display error
-    })
+server.get('*', (req, res, next) => {
+
+    let name = req.params["0"] != "/" ? req.params["0"].substr(1) : '';
+
+    res.renderVue('App.vue', {repo: name})
 })
 
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
-    console.log('Listening on port ' + PORT);
+    console.log('PORT: ' + PORT);
+    console.log('REGISTRY_HOST: ' + process.env.REGISTRY_HOST);
 });
