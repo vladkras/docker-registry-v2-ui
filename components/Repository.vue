@@ -18,9 +18,13 @@ module.exports = {
       }
   },
   mounted() {
-      $.get('/v2/_catalog').then(response => {
-          this.repositories = JSON.parse(response).repositories;
-      });
+      $.get('/v2/_catalog').done(response => {
+          try {
+              this.repositories = JSON.parse(response).repositories;
+          } catch (e) {
+              this.$emit('error', e.message);
+          }
+      })
   }
 }
 </script>

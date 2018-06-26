@@ -21,8 +21,11 @@ module.exports = {
     mounted() {
         if (this.repo) {
           $.get('/v2/' + this.repo + '/tags/list').then(response => {
-              console.log(response);
-              this.tags = JSON.parse(response).tags
+              try {
+                  this.tags = JSON.parse(response).tags
+              } catch (e) {
+                  this.$emit('error', e.message)
+              }
           })
         }
     }
