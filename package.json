@@ -13,7 +13,7 @@
     "vue-server-renderer": "^2.5.16"
   },
   "devDependencies": {
-    "@vue/cli": "^3.1.1",
+    "@vue/cli": "^3.3.0",
     "@vue/eslint-config-standard": "^3.0.5",
     "babel-core": "^6.26.3",
     "babel-plugin-transform-runtime": "^6.23.0",
@@ -22,12 +22,17 @@
     "eslint": "^5.9.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "vladkras",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/graphitlab/docker-registry-v2-ui.git"
-  }
+    "url": "git+https://github.com/graphitlab/docker-registry-v2-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/graphitlab/docker-registry-v2-ui/issues"
+  },
+  "homepage": "https://github.com/graphitlab/docker-registry-v2-ui#readme"
 }
